@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 578161130}
   - component: {fileID: 578161135}
   - component: {fileID: 578161136}
+  - component: {fileID: 578161137}
   m_Layer: 0
   m_Name: King
   m_TagString: Untagged
@@ -294,6 +295,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fallMultiplier: 2.5
   lowJumpMultiplier: 3
+--- !u!114 &578161137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 578161129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c529126c02c964a94907694ba15e9f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Combos:
+  - {fileID: 11400000, guid: 7accc6d0797444112bd988a74225fbaf, type: 2}
+  indexHit: 0
 --- !u!1 &1670278980
 GameObject:
   m_ObjectHideFlags: 0
