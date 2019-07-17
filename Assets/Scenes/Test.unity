@@ -417,7 +417,7 @@ MonoBehaviour:
   Combos:
   - {fileID: 11400000, guid: 7accc6d0797444112bd988a74225fbaf, type: 2}
   - {fileID: 11400000, guid: 7384570beb694428ca2f0fef80ed9e82, type: 2}
-  indexHit: 0
+  - {fileID: 11400000, guid: 75f1f9dd68b514d7a934779e5c907eee, type: 2}
   InputKeys:
   - Fire1
   - Fire2
