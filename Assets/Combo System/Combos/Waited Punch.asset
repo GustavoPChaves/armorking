@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 730d63257060b4354acb0bded574ae95, type: 3}
-  m_Name: Easy
+  m_Name: Waited Punch
   m_EditorClassIdentifier: 
   hits:
-  - {fileID: 11400000, guid: 67e09e3a0948042f3b7806b5a1587618, type: 2}
   - {fileID: 11400000, guid: 375465cdfe4ff4efc9ee31879f1df749, type: 2}
+  - {fileID: 11400000, guid: 50583bd1f78e3454e8892a6649060077, type: 2}
   - {fileID: 11400000, guid: 375465cdfe4ff4efc9ee31879f1df749, type: 2}
   recoverTime: 1
