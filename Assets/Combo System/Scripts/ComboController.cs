@@ -94,7 +94,9 @@ public class ComboController : MonoBehaviour
     }
 
     void PrintList(List<Combo> combos){
+        #if UNITY_EDITOR
         ClearConsole();
+        #endif
         foreach (var combo in combos)
         {
             Debug.Log(combo.name);
@@ -200,7 +202,9 @@ public class ComboController : MonoBehaviour
     public void RemoveDuplicates(){
         Combos = new HashSet<Combo>(Combos).ToList();
     }
-
+    
+    
+    #if UNITY_EDITOR
     static void ClearConsole(){
         var logEntries = System.Type.GetType("UnityEditor.LogEntries, UnityEditor.dll");
     
@@ -208,4 +212,5 @@ public class ComboController : MonoBehaviour
     
         clearMethod.Invoke(null, null);
     }
+    #endif
 }
