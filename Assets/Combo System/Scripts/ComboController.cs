@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class ComboController : MonoBehaviour
 {
 
     public List<Combo> Combos = new List<Combo>();
-
+    
     private int indexHit = 0;
 
     private Coroutine timeOut, waitHit;
@@ -43,9 +44,8 @@ public class ComboController : MonoBehaviour
                 return;
             }
         }
-        Hit actualHit = combo.hits[indexHit];
 
-        
+        Hit actualHit = combo.hits[indexHit];
 
         if(actualHit.key != inputKey && inputKey == "Wait"){
             return;
@@ -61,7 +61,7 @@ public class ComboController : MonoBehaviour
             EndCombo(combo, false);
             return;
         }
-        
+
         Debug.Log(actualHit.name);
         
         indexHit++;
@@ -115,5 +115,46 @@ public class ComboController : MonoBehaviour
         EndCombo(combo, false);
         indexHit = 0;
         //Debug.Log("Time out");
+    }
+
+    void OnValidate(){
+    }
+
+    public void OrderList(){
+        Combos.Sort(CompareCombo);
+    }
+
+    int CompareCombo(Combo c1, Combo c2){
+        int index = 0;
+        int result = CompareHit(c1.hits[index], c2.hits[index]);
+        
+        if(result == 0){
+            int count1 = c1.hits.Count;
+            int count2 = c2.hits.Count;
+
+            while(result == 0){
+                
+                index++;
+                if(index >= count1 && index < count2){
+                    return -1;
+                }
+                else if(index < count1 && index >= count2){
+                    return 1;
+                }
+                else if(index >= count1 && index >= count2 ){
+                    return 0;
+                }
+                result = CompareHit(c1.hits[index], c2.hits[index]);
+            }
+        }
+        return result;
+    }
+
+    int CompareHit(Hit h1, Hit h2){
+        return h1.name.CompareTo(h2.name);
+    }
+
+    public void RemoveDuplicates(){
+        Combos = new HashSet<Combo>(Combos).ToList();
     }
 }
