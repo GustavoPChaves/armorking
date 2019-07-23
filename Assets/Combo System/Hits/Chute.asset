@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a557aead3a3a043cd859f6d84f1f7643, type: 3}
-  m_Name: Punch
+  m_Name: Chute
   m_EditorClassIdentifier: 
   damage: 0
   recoverTime: 0.3
   chainTime: 2
-  key: Fire1
+  key: Fire2

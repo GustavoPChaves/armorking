@@ -2,18 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
+using UnityEngine.UI;
 
 public class ComboController : MonoBehaviour
 {
 
     public List<Combo> Combos = new List<Combo>();
-    
+
+    private List<Combo> filterCombos = new List<Combo>();
     private int indexHit = 0;
 
     private Coroutine timeOut, waitHit;
 
     private Combo combo;
     public List<string> InputKeys;
+
+    public Text hitText, comboText, inputText, statusText, indexText;
 
     //Bools
     private bool canCombo = true;
@@ -30,7 +35,7 @@ public class ComboController : MonoBehaviour
         {
             if (Input.GetButtonDown(key))
             {
-                
+                inputText.text = "Key: " + key;
                 ComboBuilder(key);
             }
         }
@@ -38,60 +43,91 @@ public class ComboController : MonoBehaviour
 
     void ComboBuilder(string inputKey)
     {
-        if(indexHit == 0){
-            combo = StartCombo(inputKey);
-            if(combo == null){
-                return;
-            }
-        }
+        if(!canCombo) return;
 
-        Hit actualHit = combo.hits[indexHit];
-
-        if(actualHit.key != inputKey && inputKey == "Wait"){
+        if(indexHit == 0 ) statusText.text = "Starting Combo";
+        filterCombos = FilterCombos((indexHit == 0 ? Combos : filterCombos), inputKey, indexHit);
+        
+        if(filterCombos == null || !filterCombos.Any()){
+            //EndCombo();
             return;
         }
+        indexText.text = "Index: " + (indexHit + 1).ToString();
+        combo = filterCombos.First();
+        
+        comboText.text = "Combo: " + combo.name;
+
+        Hit actualHit = GetHit(combo, indexHit);
+        
+        hitText.text = "Hit: "+ actualHit.name;
+
+        StopComboCoroutines();
+        
+        indexHit++;
+
+        StartCoroutine(EnableCombo(actualHit.recoverTime, false));
+        waitHit = StartCoroutine(WaitHit(actualHit.chainTime));
+        timeOut = StartCoroutine(HitTimeOut(actualHit.chainTime*2, combo));
+       
+    }
+
+    void StopComboCoroutines(){
         if(timeOut != null){
             StopCoroutine(timeOut);
         }
         if(waitHit != null){
             StopCoroutine(waitHit);
         }
-        
-        if(actualHit.key != inputKey){
-            EndCombo(combo, false);
-            return;
-        }
-
-        Debug.Log(actualHit.name);
-        
-        indexHit++;
-        
-        if(indexHit >= combo.Count()){
-            EndCombo(combo);
-        }
-        else{
-            StartCoroutine(EnableCombo(actualHit.recoverTime, false));
-            timeOut = StartCoroutine(HitTimeOut(actualHit.chainTime, combo));
-            waitHit = StartCoroutine(WaitHit(actualHit.recoverTime));
-        }
     }
 
-    Combo StartCombo(string inputKey)
-    {
-        foreach (var combo in Combos)
+    List<Combo> FilterCombos(List<Combo> combos, string key, int index){
+        List<Combo> filteredCombos;
+        filteredCombos = combos.Where( combo => HasKeyInComboAtIndex(key, combo, index)).ToList();
+        PrintList(filteredCombos);
+        return filteredCombos;
+    }
+
+    bool HasKeyInComboAtIndex(string key, Combo combo, int index){
+        var hit = GetHit(combo, index);
+        if(hit == null) return false;
+        return CompareKey(hit, key);
+    }
+
+    void PrintList(List<Combo> combos){
+        ClearConsole();
+        foreach (var combo in combos)
         {
-            if(combo.hits[0].key == inputKey){
-                Debug.Log("Starting Combo: "+ combo.name);
-                return combo;
-            }
+            Debug.Log(combo.name);
         }
-        return null;
     }
+    Hit GetHit(Combo combo, int index){
+        Hit hit;
+        try
+        {
+            hit = combo.hits[indexHit];
+        }
+        catch(System.Exception e)  // CS0168
+        {
+            statusText.text = "Procurando combos disponiveis";
+            return null;
+        }
+        return hit;
+    }
+
 
     void EndCombo(Combo combo, bool complete = true)
     {
+        if(indexHit >= combo.Count()){
+            complete = true;
+        }
+        else{
+            complete = false;
+        }
         indexHit = 0;
-        Debug.Log("End Combo: " + (complete ? "Completed": "Failed"));
+        statusText.text = "End Combo: " + (complete ? "Completed": "Failed");
+        filterCombos.Clear();
+        StopComboCoroutines();
+
         StartCoroutine(EnableCombo(combo.recoverTime, false));
     }
 
@@ -105,13 +141,16 @@ public class ComboController : MonoBehaviour
 
     IEnumerator WaitHit(float time)
     {
+
         yield return new WaitForSeconds(time);
+        statusText.text = "Wait";
         ComboBuilder("Wait");
     }
 
     IEnumerator HitTimeOut(float chainTime, Combo combo)
     {
         yield return new WaitForSeconds(chainTime);
+        statusText.text = "Time Out";
         EndCombo(combo, false);
         indexHit = 0;
         //Debug.Log("Time out");
@@ -154,7 +193,19 @@ public class ComboController : MonoBehaviour
         return h1.name.CompareTo(h2.name);
     }
 
+    bool CompareKey(Hit h1, string key){
+        return h1.key.CompareTo(key) == 0 ? true : false;
+    }
+
     public void RemoveDuplicates(){
         Combos = new HashSet<Combo>(Combos).ToList();
+    }
+
+    static void ClearConsole(){
+        var logEntries = System.Type.GetType("UnityEditor.LogEntries, UnityEditor.dll");
+    
+        var clearMethod = logEntries.GetMethod("Clear", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+    
+        clearMethod.Invoke(null, null);
     }
 }
