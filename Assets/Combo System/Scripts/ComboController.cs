@@ -23,6 +23,7 @@ public class ComboController : MonoBehaviour
     //Bools
     private bool canCombo = true;
     private bool completedPreviousCombo = false;
+    private Combo previousCombo;
 
     void Start()
     {
@@ -62,16 +63,29 @@ public class ComboController : MonoBehaviour
         combo = filterCombos.First();
         
         comboText.text = "Combo: " + combo.name;
+        if(completedPreviousCombo){
+            comboText.text = "Combo: " + previousCombo.name;
+        }
 
         Hit actualHit = GetHit(combo, indexHit);
         
         hitText.text = "Hit: "+ actualHit.name;
 
+        if(actualHit.name != "Wait"){
+            completedPreviousCombo = false;
+        }
         StopComboCoroutines();
         
         indexHit++;
 
         StartCoroutine(EnableCombo(actualHit.recoverTime, false));
+        completedPreviousCombo = CheckCompleteCombo(combo, indexHit);
+        if(completedPreviousCombo){
+            previousCombo = combo;
+        }
+        else{
+            previousCombo = null;
+        }
         waitHit = StartCoroutine(WaitHit(actualHit.chainTime));
         timeOut = StartCoroutine(HitTimeOut(actualHit.chainTime*2, combo));
        
@@ -135,18 +149,21 @@ public class ComboController : MonoBehaviour
 
     void EndCombo(Combo combo, bool complete = true)
     {
-        if(indexHit >= combo.Count()){
-            complete = true;
-        }
-        else{
-            complete = false;
-        }
+        complete = CheckCompleteCombo(combo, indexHit);
         indexHit = 0;
         statusText.text = "End Combo: " + (complete ? "Completed": "Failed");
         filterCombos.Clear();
         StopComboCoroutines();
 
         StartCoroutine(EnableCombo(combo.recoverTime, false));
+    }
+
+    bool CheckCompleteCombo(Combo combo, int hits){
+        if(indexHit >= combo.Count() || completedPreviousCombo){
+            completedPreviousCombo = false;
+            return true;
+        }
+        return false;
     }
 
     IEnumerator EnableCombo(float time, bool option)
