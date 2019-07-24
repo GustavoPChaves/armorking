@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Chute
   m_EditorClassIdentifier: 
   damage: 0
-  recoverTime: 0.3
-  chainTime: 2
+  recoverTime: 0.1
+  chainTime: 1
   key: Fire2

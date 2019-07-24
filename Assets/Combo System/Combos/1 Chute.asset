@@ -10,11 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 730d63257060b4354acb0bded574ae95, type: 3}
-  m_Name: Powerchain
+  m_Name: 1 Chute
   m_EditorClassIdentifier: 
   hits:
-  - {fileID: 11400000, guid: 67e09e3a0948042f3b7806b5a1587618, type: 2}
-  - {fileID: 11400000, guid: 50583bd1f78e3454e8892a6649060077, type: 2}
-  - {fileID: 11400000, guid: 67e09e3a0948042f3b7806b5a1587618, type: 2}
-  - {fileID: 11400000, guid: 7f1f6884f6f56492683229e154bd4f7b, type: 2}
-  recoverTime: 2
+  - {fileID: 11400000, guid: 41561d81855eb4361af13bcd4ba9a4b3, type: 2}
+  recoverTime: 1

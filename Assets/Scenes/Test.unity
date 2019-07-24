@@ -480,10 +480,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Combos:
+  - {fileID: 11400000, guid: d1610afed6c1d44d98c8333d46b98d85, type: 2}
+  - {fileID: 11400000, guid: 1d803383a889441aca7439f7af4f3d51, type: 2}
   - {fileID: 11400000, guid: 0f7ddd758eef94d0fb40509b77d76a36, type: 2}
+  - {fileID: 11400000, guid: 502162447c2c84a32847e8f1cb5290f6, type: 2}
   - {fileID: 11400000, guid: 75f1f9dd68b514d7a934779e5c907eee, type: 2}
   - {fileID: 11400000, guid: aa492d193175b4738a93cc7e5dbd70aa, type: 2}
-  - {fileID: 11400000, guid: 2858b08c78a9344ba91616fd67169a09, type: 2}
+  - {fileID: 11400000, guid: 60eba94418c2d4303b5fcb65feacc87a, type: 2}
+  - {fileID: 11400000, guid: 8022a680c8fad484b81f1ddd32d80e15, type: 2}
   InputKeys:
   - Fire1
   - Fire2

@@ -22,6 +22,7 @@ public class ComboController : MonoBehaviour
 
     //Bools
     private bool canCombo = true;
+    private bool completedPreviousCombo = false;
 
     void Start()
     {
@@ -38,6 +39,11 @@ public class ComboController : MonoBehaviour
                 inputText.text = "Key: " + key;
                 ComboBuilder(key);
             }
+            
+        }
+
+        if(Input.GetButtonDown("Submit")){
+            PrintList(Combos);
         }
     }
 
@@ -100,8 +106,18 @@ public class ComboController : MonoBehaviour
         foreach (var combo in combos)
         {
             Debug.Log(combo.name);
+            PrintList(combo.hits);
+            Debug.Log(".");
         }
     }
+    void PrintList(List<Hit> hits){
+        foreach (var hit in hits)
+        {
+            Debug.Log(hit.name);
+
+        }
+    }
+
     Hit GetHit(Combo combo, int index){
         Hit hit;
         try
@@ -110,7 +126,7 @@ public class ComboController : MonoBehaviour
         }
         catch(System.Exception e)  // CS0168
         {
-            statusText.text = "Procurando combos disponiveis";
+            //statusText.text = "Procurando combos disponiveis";
             return null;
         }
         return hit;
@@ -174,7 +190,6 @@ public class ComboController : MonoBehaviour
             int count2 = c2.hits.Count;
 
             while(result == 0){
-                
                 index++;
                 if(index >= count1 && index < count2){
                     return -1;

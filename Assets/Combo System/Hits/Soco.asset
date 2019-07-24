@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Soco
   m_EditorClassIdentifier: 
   damage: 0
-  recoverTime: 0.3
+  recoverTime: 0.1
   chainTime: 1
   key: Fire1
