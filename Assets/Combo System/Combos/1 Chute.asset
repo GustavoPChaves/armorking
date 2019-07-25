@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hits:
   - {fileID: 11400000, guid: 41561d81855eb4361af13bcd4ba9a4b3, type: 2}
-  recoverTime: 1
+  recoverTime: 0.5

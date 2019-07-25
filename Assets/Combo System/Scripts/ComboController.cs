@@ -78,6 +78,10 @@ public class ComboController : MonoBehaviour
             animator.SetBool("Punch", true);
             animator.SetInteger("ChainNumber", indexHit);
         }
+        if(actualHit.name == "Chute"){
+            animator.SetBool("Kick", true);
+            animator.SetInteger("ChainNumber", indexHit);
+        }
         
         hitText.text = "Hit: "+ actualHit.name;
 
@@ -162,6 +166,7 @@ public class ComboController : MonoBehaviour
         complete = CheckCompleteCombo(combo, indexHit);
         indexHit = 0;
             animator.SetBool("Punch", false);
+            animator.SetBool("Kick", false);
             animator.SetInteger("ChainNumber", indexHit);
         statusText.text = "End Combo: " + (complete ? "Completed": "Failed");
         filterCombos.Clear();
@@ -190,6 +195,8 @@ public class ComboController : MonoBehaviour
     {
 
         yield return new WaitForSeconds(time);
+        animator.SetBool("Punch", false);
+        animator.SetBool("Kick", false);
         statusText.text = "Wait";
         ComboBuilder("Wait");
     }
@@ -198,7 +205,7 @@ public class ComboController : MonoBehaviour
     {
         yield return new WaitForSeconds(chainTime);
         statusText.text = "Time Out";
-        animator.SetBool("Punch", false);
+        
         EndCombo(combo, false);
         indexHit = 0;
         //Debug.Log("Time out");
