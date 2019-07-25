@@ -20,6 +20,7 @@ public class ComboController : MonoBehaviour
 
     public Text hitText, comboText, inputText, statusText, indexText;
 
+    private Animator animator;
     //Bools
     private bool canCombo = true;
     private bool completedPreviousCombo = false;
@@ -28,6 +29,7 @@ public class ComboController : MonoBehaviour
     void Start()
     {
         combo = Combos[0];
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -61,13 +63,21 @@ public class ComboController : MonoBehaviour
         }
         indexText.text = "Index: " + (indexHit + 1).ToString();
         combo = filterCombos.First();
+
         
+        
+
         comboText.text = "Combo: " + combo.name;
         if(completedPreviousCombo){
             comboText.text = "Combo: " + previousCombo.name;
         }
 
         Hit actualHit = GetHit(combo, indexHit);
+
+        if(actualHit.name == "Soco"){
+            animator.SetBool("Punch", true);
+            animator.SetInteger("ChainNumber", indexHit);
+        }
         
         hitText.text = "Hit: "+ actualHit.name;
 
@@ -151,6 +161,8 @@ public class ComboController : MonoBehaviour
     {
         complete = CheckCompleteCombo(combo, indexHit);
         indexHit = 0;
+            animator.SetBool("Punch", false);
+            animator.SetInteger("ChainNumber", indexHit);
         statusText.text = "End Combo: " + (complete ? "Completed": "Failed");
         filterCombos.Clear();
         StopComboCoroutines();
@@ -186,6 +198,7 @@ public class ComboController : MonoBehaviour
     {
         yield return new WaitForSeconds(chainTime);
         statusText.text = "Time Out";
+        animator.SetBool("Punch", false);
         EndCombo(combo, false);
         indexHit = 0;
         //Debug.Log("Time out");
