@@ -16,7 +16,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ea8e27f815e52454c81cdda5cf07b5e9, type: 2}
   - {fileID: 11400000, guid: 50583bd1f78e3454e8892a6649060077, type: 2}
   - {fileID: 11400000, guid: ea8e27f815e52454c81cdda5cf07b5e9, type: 2}
-  recoverTime: 0.3
+  recoverTime: 0.2
   animations:
   - {fileID: -203655887218126122, guid: e8c839954a4c84abdac059adfb131253, type: 3}
   - {fileID: 0}

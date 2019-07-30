@@ -7,7 +7,6 @@ using UnityEngine;
 public class Hit : ScriptableObject
 {
     public float damage;
-    public float recoverTime;
     public float chainTime;
     public string key;
 
