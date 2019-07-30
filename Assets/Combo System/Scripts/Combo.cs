@@ -7,6 +7,7 @@ public class Combo : ScriptableObject
 {
     public List<Hit> hits;
     public float recoverTime;
+    public List<AnimationClip> animations;
 
     public int Count(){
         return hits.Count;

@@ -18,4 +18,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ea8e27f815e52454c81cdda5cf07b5e9, type: 2}
   - {fileID: 11400000, guid: ea8e27f815e52454c81cdda5cf07b5e9, type: 2}
   - {fileID: 11400000, guid: ea8e27f815e52454c81cdda5cf07b5e9, type: 2}
-  recoverTime: 0.5
+  recoverTime: 0.3
+  animations:
+  - {fileID: -203655887218126122, guid: e8c839954a4c84abdac059adfb131253, type: 3}
+  - {fileID: -203655887218126122, guid: a9755f4df09d6412ba856d1f6553552f, type: 3}
+  - {fileID: -203655887218126122, guid: 2636ea059fc6b4fb08a3f2bc0841005f, type: 3}
+  - {fileID: -203655887218126122, guid: 6cf4eebe6b2e64b8f8a7689051dcec17, type: 3}
+  - {fileID: -203655887218126122, guid: 458a0d583e2834c4a83ae580f56c72a0, type: 3}

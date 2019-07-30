@@ -25,7 +25,7 @@ public class ComboController : MonoBehaviour
     private bool canCombo = true;
     private bool completedPreviousCombo = false;
     private Combo previousCombo;
-
+    private float animationFade = 0.1f;
     void Start()
     {
         combo = Combos[0];
@@ -73,15 +73,18 @@ public class ComboController : MonoBehaviour
         }
 
         Hit actualHit = GetHit(combo, indexHit);
-
-        if(actualHit.name == "Soco"){
-            animator.SetBool("Punch", true);
-            animator.SetInteger("ChainNumber", indexHit);
+        var animationClip = GetAnimation(combo);
+        if(inputKey != "Wait"){
+            animator.CrossFade(animationClip.name, animationFade);
         }
-        if(actualHit.name == "Chute"){
-            animator.SetBool("Kick", true);
-            animator.SetInteger("ChainNumber", indexHit);
-        }
+        // if(actualHit.name == "Soco"){
+        //     animator.SetBool("Punch", true);
+        //     animator.SetInteger("ChainNumber", indexHit);
+        // }
+        // if(actualHit.name == "Chute"){
+        //     animator.SetBool("Kick", true);
+        //     animator.SetInteger("ChainNumber", indexHit);
+        // }
         
         hitText.text = "Hit: "+ actualHit.name;
 
@@ -92,7 +95,7 @@ public class ComboController : MonoBehaviour
         
         indexHit++;
 
-        StartCoroutine(EnableCombo(actualHit.recoverTime, false));
+        
         completedPreviousCombo = CheckCompleteCombo(combo, indexHit);
         if(completedPreviousCombo){
             previousCombo = combo;
@@ -100,9 +103,20 @@ public class ComboController : MonoBehaviour
         else{
             previousCombo = null;
         }
-        waitHit = StartCoroutine(WaitHit(actualHit.chainTime));
-        timeOut = StartCoroutine(HitTimeOut(actualHit.chainTime*2, combo));
+
+        StartCoroutine(EnableCombo(animationClip.length * 0.3f, false));
+        waitHit = StartCoroutine(WaitHit(animationClip.length - animationFade));
+        timeOut = StartCoroutine(HitTimeOut(animationClip.length + actualHit.chainTime - animationFade, combo));
        
+    }
+
+    AnimationClip GetAnimation(Combo combo){
+        var animationClip = combo.animations[indexHit];
+        if(animationClip == null){
+            animationClip = new AnimationClip();
+            //animationClip.length = 0;
+        }
+        return animationClip;
     }
 
     void StopComboCoroutines(){
@@ -117,7 +131,7 @@ public class ComboController : MonoBehaviour
     List<Combo> FilterCombos(List<Combo> combos, string key, int index){
         List<Combo> filteredCombos;
         filteredCombos = combos.Where( combo => HasKeyInComboAtIndex(key, combo, index)).ToList();
-        PrintList(filteredCombos);
+        //PrintList(filteredCombos);
         return filteredCombos;
     }
 
