@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Wait
   m_EditorClassIdentifier: 
   damage: 0
-  chainTime: 0.15
+  chainTime: 0.2
   key: Wait

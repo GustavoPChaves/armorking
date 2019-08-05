@@ -54,14 +54,15 @@ public class ComboController : MonoBehaviour
 
     void ComboBuilder(string inputKey)
     {
-        if(!canCombo) return;
+        //if(!canCombo) return;
 
         if(indexHit == 0 ) statusText.text = "Starting Combo";
         filterCombos = FilterCombos((indexHit == 0 ? Combos : filterCombos), inputKey, indexHit);
         
         if(filterCombos == null || !filterCombos.Any()){
             EndCombo(combo);
-            ComboBuilder(inputKey);//Todo: find a better way to call
+            if(inputKey != "Wait")
+                ComboBuilder(inputKey);//Todo: find a better way to call
             return;
         }
         indexText.text = "Index: " + (indexHit + 1).ToString();
@@ -98,8 +99,8 @@ public class ComboController : MonoBehaviour
         }
 
         //StartCoroutine(EnableCombo(animationClip.length * 0.2f, false));
-        waitHit = StartCoroutine(WaitHit(animationClip.length * animationCutOut));
-        timeOut = StartCoroutine(HitTimeOut(animationClip.length + actualHit.chainTime - animationFade, combo));
+        waitHit = StartCoroutine(WaitHit(animationClip.length * animationCutOut / 1.5f  + actualHit.chainTime));
+        timeOut = StartCoroutine(HitTimeOut((animationClip.length * animationCutOut) + actualHit.chainTime , combo));
        
     }
 
@@ -218,8 +219,6 @@ public class ComboController : MonoBehaviour
     {
 
         yield return new WaitForSeconds(time);
-        animator.SetBool("Punch", false);
-        animator.SetBool("Kick", false);
         statusText.text = "Wait";
         ComboBuilder("Wait");
     }
